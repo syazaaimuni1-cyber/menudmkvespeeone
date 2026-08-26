@@ -1,0 +1,17 @@
+{
+  "name": "Menu DM KVSP1",
+  "short_name": "Menu DM",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#f4f7fb",
+  "theme_color": "#071b3b",
+  "description": "Menu Dewan Makan Kolej Vokasional Sungai Petani 1",
+  "icons": [
+    {
+      "src": "favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
