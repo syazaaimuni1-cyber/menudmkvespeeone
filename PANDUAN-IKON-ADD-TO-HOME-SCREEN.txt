@@ -1,0 +1,25 @@
+IKON ADD TO HOME SCREEN — TINDAKAN DIPERLUKAN DARIPADA PEMILIK
+
+Repo ini TIDAK mengandungi fail logo khas Add to Home Screen. Manifest masih merujuk favicon.svg (sedia ada, tidak diubah).
+Logo header (logo-kvsp1.jpg) TIDAK digunakan sebagai ikon pemasangan.
+
+1. Letakkan fail logo khas anda dalam folder baharu "icons/":
+   icons/icon-192.png            (192x192)
+   icons/icon-512.png            (512x512)
+   icons/icon-maskable-512.png   (512x512, logo dalam zon selamat tengah ~80%, latar penuh — pilihan)
+   icons/apple-touch-icon.png    (180x180, tanpa lut sinar — untuk iPhone)
+
+2. Dalam manifest.webmanifest, gantikan bahagian "icons" dengan:
+   "icons": [
+     { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+     { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+     { "src": "icons/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" },
+     { "src": "favicon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }
+   ]
+
+3. Dalam index.html (dalam <head>) tambah:
+   <link rel="apple-touch-icon" href="icons/apple-touch-icon.png" />
+
+4. Dalam sw.js tambah fail-fail ikon ke senarai ASSETS dan naikkan CACHE_NAME (contoh: 'menu-dm-kvsp1-v4').
+
+5. Pengguna yang sudah memasang laman perlu membuang pintasan lama dan Add to Home Screen semula untuk melihat ikon baharu.
