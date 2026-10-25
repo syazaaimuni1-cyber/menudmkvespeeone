@@ -574,14 +574,14 @@
     document.body.style.overflow = '';
     els.searchInput.value = '';
     els.searchResults.innerHTML = '';
-    els.searchHint.textContent = 'Taip sekurang-kurangnya 2 huruf.';
+  
   }
 
   function renderSearch(query) {
     const q = query.trim().toLowerCase();
     if (q.length < 2) {
       els.searchResults.innerHTML = '';
-      els.searchHint.textContent = 'Taip sekurang-kurangnya 2 huruf.';
+    
       return;
     }
 
