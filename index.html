@@ -1,119 +1,201 @@
 <!DOCTYPE html>
-<html lang="ms">
+<html lang="ms" data-theme="light">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <meta name="theme-color" content="#101020" />
-  <meta name="color-scheme" content="dark" />
-  <meta name="description" content="Menu Dewan Makan Asrama Kolej Vokasional Sungai Petani 1 berdasarkan Menu Standard Sekolah Menengah KPM Semakan 2018." />
-  <meta name="apple-mobile-web-app-capable" content="yes" />
-  <meta name="mobile-web-app-capable" content="yes" />
-  <meta name="apple-mobile-web-app-title" content="Menu DM" />
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="theme-color" content="#071b3b" />
+  <meta name="description" content="Menu Dewan Makan Kolej Vokasional Sungai Petani 1 berdasarkan Menu Standard Sekolah Menengah KPM Semakan 2018." />
   <title>Menu DM | Kolej Vokasional Sungai Petani 1</title>
   <link rel="icon" href="favicon.svg" type="image/svg+xml" />
   <link rel="manifest" href="manifest.webmanifest" />
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
+  <div class="ambient ambient-one"></div>
+  <div class="ambient ambient-two"></div>
+
   <header class="site-header">
     <div class="header-inner shell">
       <a href="#top" class="brand" aria-label="Kolej Vokasional Sungai Petani 1">
-        <span class="brand-logo-wrap"><img class="brand-logo" src="logo-kvsp1.jpg" alt="Logo Kolej Vokasional Sungai Petani 1" width="1285" height="463" /></span>
+        <span class="brand-logo-wrap">
+          <img class="brand-logo" src="logo-kvsp1.jpg" alt="Logo Kolej Vokasional Sungai Petani 1" />
+        </span>
       </a>
+
       <nav class="desktop-nav" aria-label="Navigasi utama">
-        <a href="#menu" class="nav-link" data-nav="menu">Hari Ini</a>
-        <a href="#esok" class="nav-link" data-nav="esok">Esok</a>
-        <a href="#mingguan" class="nav-link" data-nav="mingguan">Mingguan</a>
-        <a href="#rujukan" class="nav-link" data-nav="rujukan">Rujukan</a>
+        <a href="#menu-hari-ini" class="nav-link active">Menu Hari Ini</a>
+        <a href="#mingguan" class="nav-link">Mingguan</a>
+        <a href="#rujukan" class="nav-link">Rujukan</a>
       </nav>
+
+      <div class="header-actions">
+        <button class="icon-btn" id="searchBtn" type="button" aria-label="Cari menu" title="Cari menu">
+          <span data-icon="search"></span>
+        </button>
+        <button class="icon-btn" id="themeBtn" type="button" aria-label="Tukar tema" title="Tukar tema">
+          <span data-icon="moon"></span>
+        </button>
+      </div>
     </div>
   </header>
 
   <main id="top">
     <section class="hero shell" aria-labelledby="heroTitle">
-      <p class="kicker">DEWAN MAKAN ASRAMA</p>
-      <h1 id="heroTitle">Menu DM <span>KVSP1</span></h1>
-      <p class="hero-date" id="heroDate">Menyelaras tarikh…</p>
-      <div class="chips" id="heroChips"></div>
-      <p class="hero-text">Makanlah dengan tertib, jangan gelojoh. Mulakan dengan membaca doa, nikmati rezeki dengan rasa syukur dan elakkan pembaziran.</p>
+      <div class="hero-copy">
+        <div class="hero-badge"><span class="pulse-dot"></span><span id="currentDateBadge">Menu hari ini</span></div>
+        <p class="hero-kicker">RESIDENSI KVESPEEONE</p>
+        <h1 id="heroTitle">Menu DM <span>KVSP1</span></h1>
+        <p class="hero-text"><p>Makanlah dengan tertib, jangan gelojoh. Mulakan dengan membaca doa, nikmati rezeki dengan rasa syukur dan elakkan pembaziran.</p>
+        <div class="hero-actions">
+          <a class="primary-btn" href="#menu-hari-ini"><span data-icon="utensils"></span> Lihat Menu Hari Ini</a>
+          <button class="secondary-btn" id="printBtn" type="button"><span data-icon="printer"></span> Cetak</button>
+        </div>
+      </div>
+
+      <div class="hero-card" aria-label="Ringkasan hari dipilih">
+        <div class="hero-card-top">
+          <div>
+            <span class="tiny-label">PAPARAN AKTIF</span>
+            <strong id="heroDay">Rabu</strong>
+          </div>
+          <span class="week-pill" id="heroWeek">Minggu 1</span>
+        </div>
+        <div class="hero-food-preview" id="heroFoodPreview"></div>
+        <div class="hero-card-bottom">
+          <div>
+            <span class="tiny-label">JUMLAH KALORI</span>
+            <strong><span id="heroCalories">0</span> <small>kcal</small></strong>
+          </div>
+          <div class="calorie-ring" id="heroRing" aria-hidden="true"><span>DM</span></div>
+        </div>
+      </div>
     </section>
 
-    <section class="shell section" id="menu" aria-live="polite">
-      <div class="section-head">
+    <section class="menu-section shell" id="menu-hari-ini">
+      <div class="section-heading split-heading">
         <div>
-          <span class="kicker" id="menuKicker">MENU HARI INI</span>
-          <h2 id="menuTitle">Menu Hari Ini</h2>
-          <p class="sub" id="menuSub"></p>
+          <span class="section-kicker">MENU HARIAN</span>
+          <h2 id="selectedTitle">Menu Hari Ini</h2>
+          <p id="selectedSubtitle">Pilih minggu dan hari untuk melihat menu penuh.</p>
         </div>
-        <button class="btn" id="todayBtn" type="button" hidden><span data-icon="calendar"></span> Kembali ke hari ini</button>
+        <div class="source-chip"><span data-icon="shield"></span> KPM 2018</div>
       </div>
-      <div class="chips" id="menuChips"></div>
-      <div class="meal-grid" id="mealGrid"></div>
+
+      <div class="control-panel glass-card">
+        <div class="control-group">
+          <label for="weekSelect">Minggu</label>
+          <div class="select-wrap">
+            <select id="weekSelect" aria-label="Pilih minggu">
+              <option value="1">Minggu 1</option>
+              <option value="2">Minggu 2</option>
+              <option value="3">Minggu 3</option>
+              <option value="4">Minggu 4</option>
+            </select>
+            <span data-icon="chevron-down"></span>
+          </div>
+        </div>
+
+        <div class="day-scroll" id="dayTabs" role="tablist" aria-label="Pilih hari"></div>
+
+        <button class="today-btn" id="todayBtn" type="button" title="Kembali ke menu hari ini">
+          <span data-icon="calendar"></span>
+          <span><small>AUTO</small><strong>Hari Ini</strong></span>
+        </button>
+      </div>
+
+      <div class="daily-summary" id="dailySummary">
+        <div class="summary-card summary-primary">
+          <span class="summary-icon" data-icon="flame"></span>
+          <div>
+            <span>Jumlah sehari</span>
+            <strong id="totalCalories">0 kcal</strong>
+          </div>
+        </div>
+        <div class="summary-card">
+          <span class="summary-icon" data-icon="clock"></span>
+          <div>
+            <span>Waktu makan</span>
+            <strong>5 sesi</strong>
+          </div>
+        </div>
+        <div class="summary-card">
+          <span class="summary-icon" data-icon="droplet"></span>
+          <div>
+            <span>Air kosong</span>
+            <strong>≥ 250 ml</strong>
+          </div>
+        </div>
+      </div>
+
+      <div class="meal-grid" id="mealGrid" aria-live="polite"></div>
     </section>
 
-    <section class="shell section" id="esok">
-      <div class="section-head">
-        <div>
-          <span class="kicker">PRATONTON</span>
-          <h2>Menu Esok</h2>
-          <p class="sub" id="tomorrowSub"></p>
-        </div>
-        <button class="btn btn-primary" id="tomorrowBtn" type="button">Buka paparan penuh <span data-icon="arrow-right"></span></button>
+    <section class="weekly-section shell" id="mingguan">
+      <div class="section-heading">
+        <span class="section-kicker">PANDANGAN MINGGUAN</span>
+        <h2>Seminggu Dalam Satu Paparan</h2>
+        <p>Tekan mana-mana hari untuk terus buka menu lengkap hari tersebut.</p>
       </div>
-      <div class="card tomorrow-card" id="tomorrowCard"></div>
+
+      <div class="week-overview" id="weekOverview"></div>
     </section>
 
-    <section class="shell section" id="mingguan">
-      <div class="section-head">
-        <div>
-          <span class="kicker">MENU MINGGUAN</span>
-          <h2>Ahad hingga Sabtu</h2>
-          <p class="sub">Pilih minggu kalendar, kemudian tekan hari untuk membuka menu penuh.</p>
+    <section class="reference-section shell" id="rujukan">
+      <div class="reference-card">
+        <div class="reference-icon"><span data-icon="book"></span></div>
+        <div class="reference-content">
+          <span class="section-kicker">RUJUKAN STANDARD</span>
+          <h2>Menu Sekolah Menengah KPM</h2>
+          <p>Data menu dalam laman ini disusun semula daripada <strong>Menu Makanan Asrama Kementerian Pendidikan Malaysia & Resepi Standard, Semakan 2018</strong>, bahagian <strong>Menu Standard Sekolah Menengah</strong>.</p>
+          <div class="reference-points">
+            <span><i data-icon="check"></i> Keperluan murid menengah: 2000–2600 kcal sehari</span>
+            <span><i data-icon="check"></i> Nasi putih sekolah menengah: 200g setiap hidangan</span>
+            <span><i data-icon="check"></i> Air kosong: sekurang-kurangnya 250ml setiap waktu makan</span>
+          </div>
+          <p class="reference-note">Nota: Paparan ini ialah versi digital untuk kemudahan rujukan. Sebarang perubahan menu sebenar dewan makan hendaklah disahkan oleh pihak kolej.</p>
         </div>
-      </div>
-      <div class="card week-panel">
-        <div class="month-nav">
-          <button class="icon-btn" id="prevMonth" type="button" aria-label="Bulan sebelumnya"><span data-icon="chevron-left"></span></button>
-          <strong id="monthLabel">—</strong>
-          <button class="icon-btn" id="nextMonth" type="button" aria-label="Bulan seterusnya"><span data-icon="chevron-right"></span></button>
-        </div>
-        <div class="week-tabs" id="weekTabs" role="tablist" aria-label="Minggu kalendar"></div>
-        <div class="day-grid" id="dayGrid"></div>
-        <p class="note-line" id="weekNote"></p>
-      </div>
-    </section>
-
-    <section class="shell section" id="rujukan">
-      <div class="card ref-card">
-        <span class="kicker">RUJUKAN</span>
-        <h2>Menu Standard Sekolah Menengah KPM</h2>
-        <p>Data menu disusun semula daripada <strong>Menu Makanan Asrama Kementerian Pendidikan Malaysia &amp; Resepi Standard, Semakan 2018</strong>, bahagian <strong>Menu Standard Sekolah Menengah</strong>.</p>
-        <ul class="ref-points">
-          <li><span data-icon="check"></span> Nasi putih sekolah menengah: 200g setiap hidangan</li>
-          <li><span data-icon="check"></span> Air kosong: sekurang-kurangnya 250ml setiap waktu makan</li>
-        </ul>
-        <p class="note-line">Paparan ini ialah versi digital untuk kemudahan rujukan. Sebarang perubahan menu sebenar dewan makan hendaklah disahkan oleh pihak kolej.</p>
       </div>
     </section>
   </main>
 
   <footer class="site-footer">
-    <div class="shell">
-      <strong>MENU DM · KVSP1</strong>
-      <span>Kolej Vokasional Sungai Petani 1</span>
+    <div class="shell footer-inner">
+      <div>
+        <strong>MENU DM · KVSP1</strong>
+        <p>Kolej Vokasional Sungai Petani 1</p>
+      </div>
+      <p class="footer-meta">Reka bentuk responsif · Telefon · Tablet · Laptop · Desktop</p>
     </div>
   </footer>
 
   <nav class="mobile-nav" aria-label="Navigasi mudah alih">
-    <a href="#menu" class="mobile-nav-item" data-nav="menu"><span data-icon="home"></span><small>Hari Ini</small></a>
-    <a href="#esok" class="mobile-nav-item" data-nav="esok"><span data-icon="sunrise"></span><small>Esok</small></a>
-    <a href="#mingguan" class="mobile-nav-item" data-nav="mingguan"><span data-icon="calendar"></span><small>Mingguan</small></a>
-    <a href="#rujukan" class="mobile-nav-item" data-nav="rujukan"><span data-icon="book"></span><small>Rujukan</small></a>
+    <a href="#menu-hari-ini" class="mobile-nav-item active"><span data-icon="home"></span><small>Hari Ini</small></a>
+    <a href="#mingguan" class="mobile-nav-item"><span data-icon="calendar"></span><small>Mingguan</small></a>
+    <button class="mobile-nav-item" id="mobileSearchBtn" type="button"><span data-icon="search"></span><small>Cari</small></button>
+    <a href="#rujukan" class="mobile-nav-item"><span data-icon="book"></span><small>Rujukan</small></a>
   </nav>
 
+  <div class="modal-backdrop" id="searchModal" hidden>
+    <div class="search-modal" role="dialog" aria-modal="true" aria-labelledby="searchTitle">
+      <div class="search-modal-head">
+        <div>
+          <span class="section-kicker">CARI MENU</span>
+          <h2 id="searchTitle">Cari hidangan</h2>
+        </div>
+        <button class="icon-btn" id="closeSearchBtn" type="button" aria-label="Tutup carian"><span data-icon="x"></span></button>
+      </div>
+      <div class="search-input-wrap">
+        <span data-icon="search"></span>
+        <input id="searchInput" type="search" autocomplete="off" placeholder="Contoh: nasi ayam, bihun, ikan..." />
+      </div>
+      <div class="search-hint" id="searchHint">Taip sekurang-kurangnya 2 huruf.</div>
+      <div class="search-results" id="searchResults"></div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
   <script src="data.js"></script>
-  <script src="calendar.js"></script>
   <script src="app.js"></script>
 </body>
 </html>

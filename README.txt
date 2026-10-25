@@ -1,22 +1,45 @@
-MENU DM KVSP1 — Kolej Vokasional Sungai Petani 1  (Dark Cyber Pop)
+MENU DM KVSP1
+Kolej Vokasional Sungai Petani 1
 
-FAIL
-- index.html           : struktur halaman
-- style.css            : reka bentuk dark (Cyber Pop), responsif
-- data.js              : data Menu Standard Sekolah Menengah KPM Semakan 2018 (TIDAK DIUBAH)
-- calendar.js          : logik tarikh Malaysia, minggu kalendar & pemadanan set menu (diuji)
-- app.js               : paparan hari ini, esok & mingguan
+Fail utama:
+- index.html           : laman utama
+- style.css            : semua reka bentuk responsif
+- data.js              : data Menu Standard Sekolah Menengah KPM Semakan 2018
+- app.js               : fungsi interaktif, carian, tema gelap, pilihan minggu/hari
 - manifest.webmanifest : tetapan PWA
-- sw.js                : cache (network-first). NAIKKAN CACHE_NAME setiap kali ubah fail.
-- favicon.svg          : ikon sedia ada (rujukan ikon manifest)
-- logo-kvsp1.jpg       : logo header (berasingan daripada ikon Add to Home Screen)
+- sw.js                : sokongan cache/offline apabila dihoskan melalui HTTPS/localhost
+- favicon.svg           : ikon laman
 
-LOGIK MINGGU
-- Minggu kalendar: Ahad–Sabtu, dikira semula setiap bulan (Minggu 1 hingga 6). Tarikh bulan lain tidak dipaparkan sebagai data bulan semasa.
-- Set Menu: kitaran 4 minggu berterusan, minggu menu Isnin–Ahad (logik asal). Rujukan tunggal dalam calendar.js (CYCLE_REF):
-  minggu menu yang bermula Isnin 24 Ogos 2026 = Set 2; kemudian 2 → 3 → 4 → 1.
-- Hari Ahad mengikut set minggu menu sebelumnya (Isnin–Ahad), jadi Set Menu boleh bertukar di tengah minggu kalendar.
-- Label "Minggu X (Kalendar)" dan "Set Menu N" dipaparkan berasingan.
+CARA BUKA CEPAT
+1. Double-click index.html.
+2. Untuk PWA/offline penuh, hos folder menggunakan localhost atau hosting HTTPS.
 
-UJIAN: node tests/run-tests.js
-SUMBER DATA: Menu Makanan Asrama KPM & Resepi Standard, Semakan 2018, Menu Standard Sekolah Menengah.
+Contoh VS Code:
+- Buka folder ini dalam VS Code.
+- Guna extension Live Server dan tekan "Go Live".
+
+FUNGSI
+- Responsif untuk telefon, tablet, laptop dan desktop.
+- Pilihan Minggu 1-4 dan Isnin-Ahad.
+- Auto fokus hari semasa pada kali pertama.
+- Paparan 5 waktu makan.
+- Jumlah kalori mengikut jadual KPM.
+- Carian menu seluruh 4 minggu (Ctrl/Cmd + K).
+- Light/Dark mode.
+- Print menu hari dipilih.
+- PWA/offline apabila dihoskan.
+
+NOTA LOGO
+Reka bentuk sekarang menggunakan monogram KVSP1 supaya laman terus berfungsi tanpa fail imej luar.
+Jika mahu logo rasmi KVSP1/KPM, letakkan fail logo dalam folder dan ubah bahagian .brand-mark dalam index.html.
+
+SUMBER DATA
+Menu Makanan Asrama Kementerian Pendidikan Malaysia & Resepi Standard, Semakan 2018,
+bahagian Menu Standard Sekolah Menengah.
+
+KEMAS KINI AUTO HARI / MINGGU
+- Website dibuka terus pada menu hari semasa mengikut tarikh peranti.
+- Anchor kitaran: Isnin 24 Ogos 2026 = Minggu 2.
+- Minggu bertukar automatik setiap Isnin: 2 → 3 → 4 → 1 → berulang.
+- Pengguna masih boleh pilih minggu/hari lain secara manual. Butang “Hari Ini” kembali ke paparan automatik.
+- Logo rasmi KVSP1 disimpan sebagai logo-kvsp1.jpg.
