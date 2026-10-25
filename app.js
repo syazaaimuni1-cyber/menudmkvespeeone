@@ -69,9 +69,15 @@
   // Kalendar menu automatik.
   // Maklumat pihak kolej: minggu yang bermula Isnin, 24 Ogos 2026 ialah MINGGU 2.
   // Selepas itu minggu menu berputar 2 → 3 → 4 → 1 setiap Isnin.
-  const MENU_ANCHOR = new Date(2026, 7, 24, 12, 0, 0); // 24 Ogos 2026, Isnin
-  const ANCHOR_WEEK = 2;
+  
+  // Kiraan minggu bulanan: Ahad hingga Sabtu.
+  function getMonthlyWeek(date) {
+    const firstDay = new Date(date.getFullYear(), date.getMonth(), 1, 12);
+    const offset = firstDay.getDay();
+    return Math.min(4, Math.floor((date.getDate() + offset - 1) / 7) + 1);
+  }
   const MS_PER_WEEK = 7 * 24 * 60 * 60 * 1000;
+
 
   function startOfLocalDay(date) {
     return new Date(date.getFullYear(), date.getMonth(), date.getDate(), 12, 0, 0);
@@ -81,8 +87,7 @@
     const safeNow = startOfLocalDay(now);
     const jsDay = safeNow.getDay();
     const dayIndex = jsDay === 0 ? 6 : jsDay - 1;
-    const diffWeeks = Math.floor((safeNow - MENU_ANCHOR) / MS_PER_WEEK);
-    const week = (((ANCHOR_WEEK - 1 + diffWeeks) % 4) + 4) % 4 + 1;
+   const week = getMonthlyWeek(safeNow);
     return { date: safeNow, dayIndex, week };
   }
 
