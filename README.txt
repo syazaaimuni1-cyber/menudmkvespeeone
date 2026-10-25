@@ -33,9 +33,6 @@ NOTA LOGO
 Reka bentuk sekarang menggunakan monogram KVSP1 supaya laman terus berfungsi tanpa fail imej luar.
 Jika mahu logo rasmi KVSP1/KPM, letakkan fail logo dalam folder dan ubah bahagian .brand-mark dalam index.html.
 
-SUMBER DATA
-Menu Makanan Asrama Kementerian Pendidikan Malaysia & Resepi Standard, Semakan 2018,
-bahagian Menu Standard Sekolah Menengah.
 
 KEMAS KINI AUTO HARI / MINGGU
 - Minggu bermula pada hari Ahad dan berakhir pada hari Sabtu.

@@ -1,9 +1,5 @@
 const MENU_DATA = {
-  source: {
-    title: "Menu Makanan Asrama Kementerian Pendidikan Malaysia & Resepi Standard",
-    edition: "Semakan 2018",
-    section: "Menu Standard Sekolah Menengah"
-  },
+
   days: ["Isnin", "Selasa", "Rabu", "Khamis", "Jumaat", "Sabtu", "Ahad"],
   mealMeta: {
     breakfast: { label: "Sarapan Pagi", short: "Sarapan", icon: "sunrise" },

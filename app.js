@@ -426,10 +426,6 @@
           <ul class="food-list">
             ${items.map((item) => `<li>${escapeHtml(item)}</li>`).join('')}
           </ul>
-          <div class="meal-card-footer">
-            <span>Menu Standard Sekolah Menengah</span>
-            <span>KPM · 2018</span>
-          </div>
         </article>
       `;
     }).join('');
