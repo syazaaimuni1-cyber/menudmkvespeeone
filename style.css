@@ -998,6 +998,19 @@ button {
   display: none;
 }
 
+.footer-credit-wrap {
+  padding-bottom: 18px;
+}
+
+.footer-credit {
+  margin: 0;
+  text-align: center;
+  color: var(--muted);
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  opacity: 0.8;
+}
+
 .modal-backdrop {
   position: fixed;
   inset: 0;
@@ -1463,7 +1476,7 @@ button {
     bottom: calc(10px + var(--safe-bottom));
     min-height: 62px;
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(2, 1fr);
     align-items: center;
     border: 1px solid rgba(255,255,255,0.14);
     border-radius: 21px;

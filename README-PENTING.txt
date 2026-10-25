@@ -13,4 +13,4 @@ Masa rasmi dicuba dalam turutan:
 - TimeAPI.io Asia/Kuala_Lumpur
 - WorldTimeAPI Asia/Kuala_Lumpur
 
-Tiada fallback kepada jam device untuk menentukan paparan aktif.
+Jam device hanya digunakan sebagai pilihan TERAKHIR (ditafsir dalam Asia/Kuala_Lumpur) jika semua sumber masa rasmi gagal.

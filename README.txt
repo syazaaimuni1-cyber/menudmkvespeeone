@@ -38,10 +38,10 @@ Menu Makanan Asrama Kementerian Pendidikan Malaysia & Resepi Standard, Semakan 2
 bahagian Menu Standard Sekolah Menengah.
 
 KEMAS KINI AUTO HARI / MINGGU
-- Website dibuka terus pada menu hari semasa mengikut tarikh peranti.
-- Anchor kitaran: Isnin 24 Ogos 2026 = Minggu 2.
-- Minggu bertukar automatik setiap Isnin: 2 → 3 → 4 → 1 → berulang.
-- Pengguna masih boleh pilih minggu/hari lain secara manual. Butang “Hari Ini” kembali ke paparan automatik.
+- Minggu bermula pada hari Ahad dan berakhir pada hari Sabtu.
+- Kiraan minggu bermula semula pada Minggu 1 apabila bulan baharu bermula, dan dihadkan kepada Minggu 1 hingga 4.
+- Contoh: 25 Oktober 2026 = Minggu 4; 1 November 2026 = Minggu 1.
+- Pengguna masih boleh pilih minggu/hari lain secara manual. Butang "Hari Ini" kembali ke paparan automatik.
 - Logo rasmi KVSP1 disimpan sebagai logo-kvsp1.jpg.
 
 
@@ -51,7 +51,7 @@ UPDATE PAPARAN AKTIF (WAKTU RASMI)
 - /api/time.js membekalkan timestamp server; paparan tidak menggunakan jam device untuk menentukan hari/waktu aktif.
 - Zon masa paparan: Asia/Kuala_Lumpur (MYT, UTC+8).
 - Jadual sesi: 06:30-07:15, 13:10-14:00, 17:00-17:30, 18:00-19:00, 22:00-22:30.
-- Isnin 24 Ogos 2026 = Minggu 2; minggu berpusing 2 > 3 > 4 > 1 setiap Isnin.
+- Minggu dikira mengikut bulan (Ahad-Sabtu, maksimum Minggu 4).
 - Paparan Aktif sentiasa ikut hari/minggu/waktu rasmi walaupun pengguna meneroka menu lain secara manual.
 - Bahagian Menu Harian/Mingguan auto ke hari semasa apabila laman dibuka; pengguna masih boleh pilih hari/minggu lain.
 
@@ -61,3 +61,4 @@ FIX v5 – WAKTU RASMI
 - Jika masih gagal, sistem cuba WorldTimeAPI untuk zon Asia/Kuala_Lumpur.
 - Tiada fallback kepada jam peranti pengguna.
 - Cache PWA dinaik taraf ke v5 supaya app.js lama tidak melekat.
+- Jika semua sumber masa rasmi gagal (cth. fail dibuka terus melalui file://), jam peranti digunakan sebagai pilihan terakhir tetapi tetap ditafsirkan dalam zon Asia/Kuala_Lumpur supaya kad PAPARAN AKTIF tidak kosong.

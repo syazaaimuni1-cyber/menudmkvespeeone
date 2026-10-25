@@ -55,7 +55,6 @@
     heroDailyCalories: $('#heroDailyCalories'),
     heroFoodPreview: $('#heroFoodPreview'),
     heroRing: $('#heroRing'),
-    weekOverview: $('#weekOverview'),
     searchBtn: $('#searchBtn'),
     mobileSearchBtn: $('#mobileSearchBtn'),
     searchModal: $('#searchModal'),
@@ -71,14 +70,17 @@
   };
 
   // Masa rasmi & kalendar menu automatik.
-  // Isnin, 24 Ogos 2026 ditetapkan sebagai permulaan MINGGU 2.
+  // Minggu bermula pada hari Ahad dan berakhir pada hari Sabtu.
+  // Kiraan minggu bermula semula pada Minggu 1 setiap kali bulan baharu bermula,
+  // dan dihadkan kepada Minggu 1 hingga Minggu 4 sahaja.
   // Semua pengiraan hari, minggu dan sesi aktif menggunakan waktu rasmi server,
   // kemudian ditafsirkan dalam zon Asia/Kuala_Lumpur (MYT, UTC+8).
   const TIME_ZONE = 'Asia/Kuala_Lumpur';
-  const MENU_ANCHOR_DAY = Date.UTC(2026, 7, 24); // 24 Ogos 2026, Isnin
-  const ANCHOR_WEEK = 2;
   const MS_PER_DAY = 24 * 60 * 60 * 1000;
-  const DAYS_PER_WEEK = 7;
+  const MAX_MENU_WEEK = 4;
+  // Susunan paparan tab hari (Ahad -> Sabtu). Nilai ialah indeks dalam data.js
+  // (0 = Isnin ... 6 = Ahad), jadi kandungan data.js tidak diubah.
+  const DAY_DISPLAY_ORDER = [6, 0, 1, 2, 3, 4, 5];
 
   const MEAL_SCHEDULE = [
     { key: 'breakfast', start: '06:30', end: '07:15' },
@@ -129,11 +131,11 @@
 
   function getMenuStateFromYMD(year, month, day) {
     const daySerial = Date.UTC(year, month - 1, day);
-    const jsDay = new Date(daySerial).getUTCDay();
-    const dayIndex = jsDay === 0 ? 6 : jsDay - 1;
-    const diffDays = Math.floor((daySerial - MENU_ANCHOR_DAY) / MS_PER_DAY);
-    const diffWeeks = Math.floor(diffDays / DAYS_PER_WEEK);
-    const week = (((ANCHOR_WEEK - 1 + diffWeeks) % 4) + 4) % 4 + 1;
+    const jsDay = new Date(daySerial).getUTCDay(); // 0 = Ahad ... 6 = Sabtu
+    const dayIndex = jsDay === 0 ? 6 : jsDay - 1;  // indeks data.js: 0 = Isnin ... 6 = Ahad
+    const firstWeekday = new Date(Date.UTC(year, month - 1, 1)).getUTCDay();
+    const weekOfMonth = Math.floor((day - 1 + firstWeekday) / 7) + 1; // minggu Ahad-Sabtu dalam bulan
+    const week = Math.min(MAX_MENU_WEEK, weekOfMonth);
     return { year, month, day, dayIndex, week, daySerial };
   }
 
@@ -269,7 +271,12 @@
       errors.push(`worldtimeapi: ${error.message}`);
     }
 
-    throw new Error(errors.join(' | '));
+    // 5) Pilihan terakhir: jam peranti, tetapi SENTIASA ditafsirkan dalam zon
+    // Asia/Kuala_Lumpur. Hanya digunakan apabila semua sumber masa rasmi gagal
+    // (contohnya fail dibuka terus melalui file:// atau tiada internet) supaya
+    // kad PAPARAN AKTIF tidak runtuh. Sync seterusnya akan kembali ke masa server.
+    console.warn('Sumber masa rasmi gagal, guna jam peranti (zon Asia/Kuala_Lumpur):', errors.join(' | '));
+    return { timestamp: Date.now(), source: 'device-clock-fallback', fallback: true };
   }
 
   async function syncOfficialTime({ silent = false } = {}) {
@@ -277,7 +284,7 @@
     try {
       const official = await fetchOfficialTimestamp();
       const requestEnd = performance.now();
-      const halfRoundTrip = Math.max(0, (requestEnd - requestStart) / 2);
+      const halfRoundTrip = official.fallback ? 0 : Math.max(0, (requestEnd - requestStart) / 2);
       serverEpochAtSync = official.timestamp + halfRoundTrip;
       perfAtSync = requestEnd;
       timeSyncFailed = false;
@@ -309,7 +316,8 @@
     } catch (error) {
       console.error('Gagal mendapatkan waktu rasmi server:', error);
       timeSyncFailed = true;
-      renderTimeUnavailable();
+      // Jangan padam kad PAPARAN AKTIF jika masa yang sah sudah ada.
+      if (!officialState) renderTimeUnavailable();
       return false;
     }
   }
@@ -377,7 +385,8 @@
   }
 
   function renderDayTabs() {
-    els.dayTabs.innerHTML = MENU_DATA.days.map((day, index) => {
+    els.dayTabs.innerHTML = DAY_DISPLAY_ORDER.map((index) => {
+      const day = MENU_DATA.days[index];
       const classes = [
         'day-tab',
         index === selectedDay ? 'active' : '',
@@ -488,39 +497,6 @@
       : `Paparan manual · ${week.label} · 5 waktu makan · jumlah rujukan ${total.toLocaleString('ms-MY')} kcal sehari`;
   }
 
-  function renderWeekOverview() {
-    const week = MENU_DATA.weeks[selectedWeek];
-
-    els.weekOverview.innerHTML = MENU_DATA.days.map((day, index) => {
-      const menu = week.menus[index];
-      return `
-        <button class="week-day-card ${index === selectedDay ? 'active' : ''}" type="button" data-day="${index}">
-          <span class="day-name">${day}</span>
-          <span class="day-kcal">${week.calories.total[index]} kcal</span>
-          <div class="mini-meal">
-            <span>Sarapan</span>
-            <strong>${escapeHtml(menu.breakfast[0])}</strong>
-          </div>
-          <div class="mini-meal">
-            <span>Tengah Hari</span>
-            <strong>${escapeHtml(menu.lunch[1] || menu.lunch[0])}</strong>
-          </div>
-          <div class="mini-meal">
-            <span>Malam</span>
-            <strong>${escapeHtml(menu.dinner[1] || menu.dinner[0])}</strong>
-          </div>
-        </button>
-      `;
-    }).join('');
-
-    $$('.week-day-card', els.weekOverview).forEach((card) => {
-      card.addEventListener('click', () => {
-        selectDay(Number(card.dataset.day));
-        $('#menu-hari-ini').scrollIntoView({ behavior: 'smooth', block: 'start' });
-      });
-    });
-  }
-
   function renderAll() {
     els.weekSelect.disabled = false;
     els.weekSelect.value = String(selectedWeek);
@@ -535,7 +511,6 @@
     renderMeals();
     renderHero();
     renderSummary();
-    renderWeekOverview();
   }
 
   function renderTimeUnavailable() {
@@ -641,7 +616,8 @@
       btn.addEventListener('click', () => {
         selectedWeek = Number(btn.dataset.week);
         selectedDay = Number(btn.dataset.day);
-                closeSearch();
+        manualBrowse = true;
+        closeSearch();
         renderAll();
         $('#menu-hari-ini').scrollIntoView({ behavior: 'smooth', block: 'start' });
       });
@@ -663,7 +639,7 @@
 
   function setupNavSpy() {
     const sectionLinks = $$('.nav-link, .mobile-nav-item[href^="#"]');
-    const sections = ['menu-hari-ini', 'mingguan', 'rujukan'].map((id) => document.getElementById(id));
+    const sections = ['menu-hari-ini'].map((id) => document.getElementById(id));
 
     const observer = new IntersectionObserver((entries) => {
       const visible = entries
